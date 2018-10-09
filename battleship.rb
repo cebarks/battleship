@@ -1,25 +1,4 @@
-class Battleship
-  def initialize
+require './lib/battleship_game'
 
-  end
-
-  def start
-    welcome
-    game_loop
-
-  end
-
-  def welcome
-  end
-
-  def game_loop
-  end
-
-  def print_instructions
-  end
-
-end
-
-
-battleship = Battleship.new()
+battleship = BattleshipGame.new()
 battleship.start()
