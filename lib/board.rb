@@ -61,12 +61,17 @@ class Board
       return false
     end
 
-    if ship_size == 2
-      if !is_cell_empty?(coord_1) || !is_cell_empty?(coord_2)
-        return false
+    all_cells_empty = true
+
+    coords_between(coord_1, coord_2).each do |coord|
+      if !is_cell_empty?(coord)
+        all_cells_empty = false
       end
     end
 
+    if !all_cells_empty
+      return false
+    end
 
     true
   end
