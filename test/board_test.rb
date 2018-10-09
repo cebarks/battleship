@@ -28,4 +28,8 @@ class BoardTest < Minitest::Test
 
     assert_equal expected, @board.board_hash.keys
   end
+
+  def test_print_board
+    Board.new(9).print_board
+  end
 end
