@@ -1,6 +1,6 @@
-task :default => ["test"]
+task default: ['test']
 
-desc "Run all tests in test/"
+desc 'Run all tests in test/'
 task :test do
-	ruby "test/*_test.rb"
-endrake
+  ruby 'test/*_test.rb'
+end
