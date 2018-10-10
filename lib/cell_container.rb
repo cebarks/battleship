@@ -4,6 +4,6 @@ class CellContainer
   end
 
   def empty?
-    content.nil?
+    @content.nil?
   end
 end

@@ -4,7 +4,6 @@ require './lib/board'
 require './lib/ship'
 
 class BoardTest < Minitest::Test
-
   def setup
     @board = Board.new
   end
@@ -25,20 +24,20 @@ class BoardTest < Minitest::Test
   def test_it_populates_keys
     @board.populate_keys
 
-    expected = ["A1", "B1", "C1", "D1", "A2", "B2", "C2", "D2", "A3", "B3", "C3", "D3", "A4", "B4", "C4", "D4"]
+    expected = %w[A1 B1 C1 D1 A2 B2 C2 D2 A3 B3 C3 D3 A4 B4 C4 D4]
 
     assert_equal expected, @board.board_hash.keys
   end
 
   def test_print_board
     skip
-    assert_output("\n" + "==========" + "\n" + ". 1 2 3 4 " + "\n" + "A" + "\n" + "B" + "\n" + "C" + "\n" + "D" + "\n" + "==========" + "\n", '') do
+    assert_output("\n" + '==========' + "\n" + '. 1 2 3 4 ' + "\n" + 'A' + "\n" + 'B' + "\n" + 'C' + "\n" + 'D' + "\n" + '==========' + "\n", '') do
       @board.print_board
     end
   end
 
   def test_print_boarders
-    assert_output("==========" + "\n", '') do
+    assert_output('==========' + "\n", '') do
       @board.print_boarders
     end
   end
@@ -50,10 +49,7 @@ class BoardTest < Minitest::Test
   # end
 
   def test_it_can_validate_ship_placement
-    assert_equal true, @board.is_placement_valid?("A1", "A2", 2)
+    @board.populate_keys
+    assert_equal true, @board.is_placement_valid?('A1', 'A2', 2)
   end
-
-
-
-
 end
