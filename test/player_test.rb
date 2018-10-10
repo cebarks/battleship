@@ -19,4 +19,15 @@ class PlayerTest < Minitest::Test
     assert_instance_of Board, @human.board
     assert_instance_of Board, @ai.board
   end
+
+  def test_ai_can_place_ships
+    @ai.place_ships
+    refute_equal [], @ai.ships
+  end
+
+  def test_player_can_place_ships
+    skip
+    @human.place_ships
+    refute_equal [], @human.ships
+  end
 end
