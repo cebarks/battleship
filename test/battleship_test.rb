@@ -22,19 +22,6 @@ class BattleshipTest < Minitest::Test
     assert_instance_of Player, @battleship.player_2
   end
 
-  def test_welcome_repl
-    skip
-    out, err = capture_io do
-      simulate_stdin('i') { @battleship.welcome }
-    end
-    out = 'Hello, World!'
-    puts out
-    #  %x(echo "#{out}" > test.txt)
-
-    assert true
-    # p out, err
-  end
-
   def test_get_input
     input = ''
     simulate_stdin('test1') { input = @battleship.get_input }
