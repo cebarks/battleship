@@ -1,32 +1,40 @@
 require './lib/player'
 require './lib/board'
+require './lib/repl'
 
 class BattleshipGame
   attr_reader :player_1, :player_2
 
   def start
     welcome
-    game_init
-    game_loop
   end
 
   def welcome
-    loop do
-      puts "Welcome to BATTLESHIP"
-      puts "Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
-      print "> "
-      input = get_input
-
-      case input
-      when "p", "play"
-        break
-      when "i", "instructions"
-        print_instructions
-      when "q", "quit"
-        exit_game
-      end
+    play_proc = Proc.new do
+      game_init
     end
 
+    instructions_proc = Proc.new do
+      print_instructions
+    end
+
+    exit_proc = Proc.new do
+      exit_game
+    end
+
+    repl_procs = {
+      "p" => play_proc,
+      "i" => instructions_proc,
+      "q" => exit_proc
+    }
+
+    message =
+%{Welcome to BATTLESHIP!
+Would you like to (p)lay, read the (i)nstructions, or (q)uit?}
+
+    repl = Repl.new('> ', message, repl_procs)
+
+    repl.run
   end
 
   def game_init
@@ -35,6 +43,8 @@ class BattleshipGame
 
     @player_2.place_ships()
     @player_1.place_ships()
+
+    game_loop
   end
 
   def game_loop
