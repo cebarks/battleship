@@ -47,7 +47,7 @@ class Board
   end
 
   def is_placement_valid?(coord_1, coord_2, ship_size)
-    if !is_coord_valid(coord_1) || !is_coord_valid(coord_2) #If either coord isn't valid, return fail
+    if !is_coord_valid?(coord_1) || !is_coord_valid?(coord_2) #If either coord isn't valid, return fail
       return false
     end
 
@@ -117,7 +117,7 @@ class Board
 
   def is_coord_valid?(coord)
     let = coord[0]
-    num = coord[1]
+    num = coord[1].to_i
 
     if num > size || num < 0
       return false
@@ -125,6 +125,7 @@ class Board
     if !@allowed_letters.include?(let)
       return false
     end
+    true
   end
 
   def print_boarders

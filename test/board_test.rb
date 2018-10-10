@@ -1,6 +1,7 @@
 require './test/test_helper'
 require 'pry'
 require './lib/board'
+require './lib/ship'
 
 class BoardTest < Minitest::Test
 
@@ -30,6 +31,29 @@ class BoardTest < Minitest::Test
   end
 
   def test_print_board
-    Board.new(9).print_board
+    skip
+    assert_output("\n" + "==========" + "\n" + ". 1 2 3 4 " + "\n" + "A" + "\n" + "B" + "\n" + "C" + "\n" + "D" + "\n" + "==========" + "\n", '') do
+      @board.print_board
+    end
   end
+
+  def test_print_boarders
+    assert_output("==========" + "\n", '') do
+      @board.print_boarders
+    end
+  end
+
+  # def test_it_can_add_a_ship(coord_1, coord_2, ship)
+  #   skip
+  #   @board.add_ship("A1", "A2", Ship.new)
+  #   assert_equal 1, @board.ships #???
+  # end
+
+  def test_it_can_validate_ship_placement
+    assert_equal true, @board.is_placement_valid?("A1", "A2", 2)
+  end
+
+
+
+
 end
