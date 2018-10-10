@@ -2,19 +2,12 @@ require './lib/player'
 require './lib/board'
 
 class BattleshipGame
-  attr_reader :player_1, :player_2, :board
-
-  def initialize
-    @player_1 = Player.new
-    @player_2 = Player.new
-    @board = Board.new
-
-  end
+  attr_reader :player_1, :player_2
 
   def start
     welcome
+    game_init
     game_loop
-
   end
 
   def welcome
@@ -26,7 +19,7 @@ class BattleshipGame
 
       case input
       when "p", "play"
-        game_loop
+        break
       when "i", "instructions"
         print_instructions
       when "q", "quit"
@@ -34,6 +27,14 @@ class BattleshipGame
       end
     end
 
+  end
+
+  def game_init
+    @player_1 = HumanPlayer.new
+    @player_2 = AIPlayer.new
+
+    @player_2.place_ships()
+    @player_1.place_ships()
   end
 
   def game_loop
