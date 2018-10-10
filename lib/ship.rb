@@ -1,8 +1,8 @@
 class Ship
-  attr_reader :destroyed, :size
+  attr_reader :destroyed, :size, :hits, :owner
 
   def initialize(player, size)
-    @player = player
+    @owner = player
     @size = size
     @hits = 0
     @destroyed = false
