@@ -16,6 +16,12 @@ class BoardTest < Minitest::Test
     assert_equal 4, @board.size
   end
 
+  def test_invalid_size
+    assert_output("WRONG SIZE LESS THAN 4!!!!!!!\n",'') do
+      Board.new(3)
+    end
+  end
+
   def test_custom_size
     custom_board = Board.new(8)
     assert_equal 8, custom_board.size
@@ -29,27 +35,42 @@ class BoardTest < Minitest::Test
     assert_equal expected, @board.board_hash.keys
   end
 
-  def test_print_board
-    skip
-    assert_output("\n" + '==========' + "\n" + '. 1 2 3 4 ' + "\n" + 'A' + "\n" + 'B' + "\n" + 'C' + "\n" + 'D' + "\n" + '==========' + "\n", '') do
+  def test_print_empty_board
+    # skip
+    expected =%(
+==========
+. 1 2 3 4
+A
+B
+C
+D
+==========
+)
+    assert_output(expected, '') do
       @board.print_board
     end
   end
 
   def test_print_boarders
-    assert_output('==========' + "\n", '') do
+    assert_output("\n==========\n", '') do
       @board.print_boarders
     end
   end
 
-  # def test_it_can_add_a_ship(coord_1, coord_2, ship)
-  #   skip
-  #   @board.add_ship("A1", "A2", Ship.new)
-  #   assert_equal 1, @board.ships #???
-  # end
+  def test_it_can_add_a_ship
+    @board.populate_keys
+    @board.add_ship('A1', 'A2', Ship.new(nil, 2))
+    assert_equal false, @board.board_hash['A1'].empty?
+    assert_equal false, @board.board_hash['A2'].empty?
+  end
 
   def test_it_can_validate_ship_placement
     @board.populate_keys
     assert_equal true, @board.is_placement_valid?('A1', 'A2', 2)
+    assert_equal true, @board.is_placement_valid?('B1', 'B3', 3)
+    assert_equal true, @board.is_placement_valid?('A1', 'B1', 2)
+    assert_equal false, @board.is_placement_valid?('A1', 'A4', 6)
+    assert_equal false, @board.is_placement_valid?('A1', 'A4', 2)
+    assert_equal false, @board.is_placement_valid?('A1', 'C3', 4)
   end
 end

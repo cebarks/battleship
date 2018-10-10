@@ -6,7 +6,7 @@ class Board
   def initialize(size = 4)
     if size < 4
       puts 'WRONG SIZE LESS THAN 4!!!!!!!'
-      exit!
+      size = 4
     end
     @size = size
     @board_hash = Hash.new(nil)
@@ -22,17 +22,14 @@ class Board
   end
 
   def print_board
-    print "\n"
     print_boarders
-    print '. '
+    print '.'
 
     (1..size).each do |num|
-      print "#{num} "
+      print " #{num}"
     end
-
-    print "\n"
-
     ('A'..alpha_hash[size]).each do |letter|
+      print "\n"
       print_row(letter)
     end
 
@@ -43,6 +40,11 @@ class Board
     coord_1 = coord_1.upcase
     coord_2 = coord_2.upcase
     if is_placement_valid?(coord_1, coord_2, ship.size)
+      coords = coords_between(coord_1, coord_2)
+
+      coords.each do |coord|
+        @board_hash[coord].content = ship
+      end
     end
   end
 
@@ -120,6 +122,7 @@ class Board
   end
 
   def print_boarders
+    print "\n"
     (@size * 2 + 2).times do
       print '='
     end
@@ -127,7 +130,7 @@ class Board
   end
 
   def print_row(letter)
-    puts letter
+    print letter
   end
 
   def alpha_hash
