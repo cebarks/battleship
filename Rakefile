@@ -1,6 +1,8 @@
-task default: ['test']
+require 'rake/testtask'
 
-desc 'Run all tests in test/'
-task :test do
-  ruby 'test/*_test.rb'
+task default: [:test]
+
+desc 'Run all tests in test'
+Rake::TestTask.new do |t|
+  t.test_files = FileList['test/*_test.rb']
 end
