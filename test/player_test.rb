@@ -19,6 +19,4 @@ class PlayerTest < Minitest::Test
     assert_instance_of Board, @human.board
     assert_instance_of Board, @ai.board
   end
-
-
 end
