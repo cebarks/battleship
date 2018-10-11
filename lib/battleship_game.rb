@@ -1,4 +1,4 @@
-require './lib/player'
+require './lib/human_player'
 require './lib/board'
 require './lib/repl'
 
@@ -32,16 +32,16 @@ class BattleshipGame
       %{Welcome to BATTLESHIP!
       Would you like to (p)lay, read the (i)nstructions, or (q)uit?}
 
-    repl = Repl.new('> ', message, repl_procs)
+    @repl = Repl.new('> ', message, repl_procs)
 
-    repl.run
+    @repl.run
   end
 
   def game_init
     @player_1 = HumanPlayer.new
-    @player_2 = AIPlayer.new
+    #@player_2 = AIPlayer.new
 
-    @player_2.place_ships
+    #@player_2.place_ships
     @player_1.place_ships
 
     game_loop
@@ -63,6 +63,6 @@ class BattleshipGame
 
   def exit_game
     puts 'Thanks for playing!'
-    @running = false
+    @repl.stop
   end
 end
