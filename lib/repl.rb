@@ -12,9 +12,9 @@ class Repl
       print @prompt
       input = get_input
 
-      code = @trigger_hash[input]
+      proc = get_proc_from_trigger(input)
 
-      code.call()
+      proc.call()
     end
   end
 
@@ -27,7 +27,12 @@ class Repl
     input.chomp.downcase
   end
 
-  def block_to_proc
-    Proc.new { yield }
+  def get_proc_from_trigger(trigger)
+    proc_key = []
+    @trigger_hash.keys.each do |key|
+      proc_key = key if key.include?(trigger)
+    end
+
+    @trigger_hash[proc_key]
   end
 end
