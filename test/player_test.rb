@@ -6,7 +6,7 @@ require './lib/board'
 
 class PlayerTest < Minitest::Test
   def setup
-   @human = HumanPlayer.new
+    @human = HumanPlayer.new
     @ai = AIPlayer.new
   end
 
@@ -20,7 +20,7 @@ class PlayerTest < Minitest::Test
   end
 
   def test_has_board
-   assert_instance_of Board, @human.board
+    assert_instance_of Board, @human.board
     assert_instance_of Board, @ai.board
   end
 

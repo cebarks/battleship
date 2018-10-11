@@ -8,7 +8,6 @@ class AIPlayer
   def initialize
     @ships = []
     @board = Board.new
-    @board.populate_keys
   end
 
   def place_ships
@@ -19,6 +18,9 @@ class AIPlayer
 
     ship_sizes.each do |size|
       while !valid_coords
+        if @board.add_ship(coords[0], coords[1], ship)
+
+
         if @board.is_placement_valid?(coords[0], coords[1], size)
           valid_coords = true
         else

@@ -28,8 +28,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_populates_keys
-    @board.populate_keys
-
     expected = %w[A1 B1 C1 D1 A2 B2 C2 D2 A3 B3 C3 D3 A4 B4 C4 D4]
 
     assert_equal expected, @board.board_hash.keys
@@ -58,14 +56,12 @@ D
   end
 
   def test_it_can_add_a_ship
-    @board.populate_keys
     @board.add_ship('A1', 'A2', Ship.new(nil, 2))
     assert_equal false, @board.board_hash['A1'].empty?
     assert_equal false, @board.board_hash['A2'].empty?
   end
 
   def test_it_can_validate_ship_placement
-    @board.populate_keys
     assert_equal true, @board.is_placement_valid?('A1', 'A2', 2)
     assert_equal true, @board.is_placement_valid?('B1', 'B3', 3)
     assert_equal true, @board.is_placement_valid?('A1', 'B1', 2)
