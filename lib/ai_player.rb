@@ -33,12 +33,15 @@ class AIPlayer
     end
   end
 
-
   def pick_coordinates # returns an array of 2 coordinates
     coordinates = []
     2.times do
       coordinates << @board.board_hash.keys.sample
     end
     coordinates
+  end
+
+  def print_board
+    @board.print_board
   end
 end
