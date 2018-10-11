@@ -30,8 +30,11 @@ class BattleshipGame
   end
 
   def game_init
-    @player_2.place_ships
+
+    #@player_2.place_ships
     @player_1.place_ships
+    require 'pry'; binding.pry
+    @player_1.print_board
 
     game_loop
   end

@@ -133,7 +133,19 @@ class Board
   end
 
   def print_row(letter)
+    row_keys = @board_hash.keys.select do |key|
+      key.include?(letter)
+    end
+
+    row_keys.sort!
+    row = row_keys.map do |key|
+      @board_hash[key].get_char_to_display
+    end
+    
     print letter
+    row.each do |char|
+      print " " + char
+    end
   end
 
   def alpha_hash
