@@ -18,8 +18,8 @@ class BattleshipTest < Minitest::Test
   end
 
   def test_has_players
-    assert_instance_of Player, @battleship.player_1
-    assert_instance_of Player, @battleship.player_2
+    assert_instance_of HumanPlayer, @battleship.player_1
+    assert_instance_of AIPlayer, @battleship.player_2
   end
 
   def test_get_input
@@ -34,10 +34,4 @@ class BattleshipTest < Minitest::Test
     assert_equal '', input
   end
 
-  def test_exit_game
-    # skip
-    assert_output "Thanks for playing!\n" do
-      @battleship.exit_game
-    end
-  end
 end

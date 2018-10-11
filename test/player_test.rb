@@ -1,12 +1,12 @@
 require './test/test_helper'
-require './lib/player'
+require './lib/human_player'
 require './lib/ship'
 require './lib/ai_player'
 require './lib/board'
 
 class PlayerTest < Minitest::Test
   def setup
-   @human = HumanPlayer.new
+    @human = HumanPlayer.new
     @ai = AIPlayer.new
   end
 
@@ -20,7 +20,7 @@ class PlayerTest < Minitest::Test
   end
 
   def test_has_board
-   assert_instance_of Board, @human.board
+    assert_instance_of Board, @human.board
     assert_instance_of Board, @ai.board
   end
 
@@ -30,9 +30,10 @@ class PlayerTest < Minitest::Test
     assert_instance_of Ship, @ai.ships[0]
   end
 
-  def test_player_can_place_ships
-    skip
-   @human.place_ships
+  def test_human_player_can_place_ships
+    assert @human.add_ship("A1", "A2", 2)
     refute_equal [], @human.ships
+    refute @human.add_ship("A1", "A4", 2)
+
   end
 end

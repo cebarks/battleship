@@ -1,11 +1,10 @@
 require './test/test_helper'
-
 require './lib/ship'
-require './lib/player'
+require './lib/ai_player'
 
 class ShipTest < Minitest::Test
   def setup
-    @player = Player.new
+    @player = AIPlayer.new
     @ship = Ship.new(@player, 2)
   end
 

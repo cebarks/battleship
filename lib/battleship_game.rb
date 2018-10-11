@@ -1,31 +1,23 @@
 require './lib/human_player'
+require './lib/ai_player'
 require './lib/board'
 require './lib/repl'
 
 class BattleshipGame
   attr_reader :player_1, :player_2
 
-  def start
-    welcome
+  SHIP_SIZES = [2, 3]
+
+  def initialize
+    @player_1 = HumanPlayer.new
+    @player_2 = AIPlayer.new
   end
 
-  def welcome
-    play_proc = proc do
-      game_init
-    end
-
-    instructions_proc = proc do
-      print_instructions
-    end
-
-    exit_proc = proc do
-      exit_game
-    end
-
+  def start
     repl_procs = {
-      %w[p play] => play_proc,
-      %w[i instructions] => instructions_proc,
-      %w[q quit] => exit_proc
+      %w[p play] => method(:game_init),
+      %w[i instructions] => method(:print_instructions),
+      %w[q quit] => method(:exit_game)
     }
 
     message =
@@ -38,10 +30,7 @@ class BattleshipGame
   end
 
   def game_init
-    @player_1 = HumanPlayer.new
-    #@player_2 = AIPlayer.new
-
-    #@player_2.place_ships
+    @player_2.place_ships
     @player_1.place_ships
 
     game_loop
