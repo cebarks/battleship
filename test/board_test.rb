@@ -1,5 +1,4 @@
 require './test/test_helper'
-require 'pry'
 require './lib/board'
 require './lib/ship'
 

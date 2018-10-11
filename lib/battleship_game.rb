@@ -1,9 +1,17 @@
 require './lib/human_player'
+require './lib/ai_player'
 require './lib/board'
 require './lib/repl'
 
 class BattleshipGame
   attr_reader :player_1, :player_2
+
+  SHIP_SIZES = [2, 3]
+
+  def initialize
+    @player_1 = HumanPlayer.new
+    @player_2 = AIPlayer.new
+  end
 
   def start
     repl_procs = {
@@ -22,9 +30,6 @@ class BattleshipGame
   end
 
   def game_init
-    @player_1 = HumanPlayer.new
-    @player_2 = AIPlayer.new
-
     @player_2.place_ships
     @player_1.place_ships
 

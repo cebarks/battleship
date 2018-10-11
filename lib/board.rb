@@ -4,7 +4,7 @@ class Board
   attr_reader :size, :board_hash
 
   def initialize(size = 4)
-    if size < 4
+    if size < 4 # Better way to do this
       puts 'WRONG SIZE LESS THAN 4!!!!!!!'
       size = 4
     end
@@ -42,9 +42,7 @@ class Board
     coord_1 = coord_1.upcase
     coord_2 = coord_2.upcase
     if is_placement_valid?(coord_1, coord_2, ship.size)
-      coords = coords_between(coord_1, coord_2)
-
-      coords.each do |coord|
+      coords_between(coord_1, coord_2).each do |coord|
         @board_hash[coord].content = ship
       end
       true
@@ -141,7 +139,7 @@ class Board
   def alpha_hash
     alpha_hash = {}
     counter = 1
-    ('A'...'Z').each do |x|
+    ('A'..'Z').each do |x|
       alpha_hash[counter] = x
       counter += 1
     end

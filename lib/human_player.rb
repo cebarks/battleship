@@ -1,6 +1,9 @@
 require './lib/ship'
+require './lib/board'
+require './lib/repl'
 
 class HumanPlayer
+  attr_reader :board, :ships
   def initialize
     @board = Board.new
     @ships = []
@@ -8,7 +11,8 @@ class HumanPlayer
 
   def turn; end
 
-  def add_ship(coord_1, coord_2, ship)
+  def add_ship(coord_1, coord_2, size)
+    ship = Ship.new(self, size)
     if @board.add_ship(coord_1, coord_2, ship)
       @ships << ship
       true
@@ -20,49 +24,41 @@ class HumanPlayer
   def fire(coord); end
 
   def place_ships
-    # add_ship_2_proc = Proc.new do
-    #   loc = prompt_ship_location(2)
-    #   add_ship(loc[0], loc[1], Ship.new(self, 2))
-    # end
-    #
-    # add_ship_3_proc = Proc.new do
-    #   loc = prompt_ship_location(3)
-    #   add_ship(loc[0], loc[1], Ship.new(self, 3))
-    # end
+    sizes = BattleshipGame::SHIP_SIZES
 
-    add_ship_2_proc = make_add_ship_proc(2)
+    puts %{I have laid out my ships on the grid.
+You now need to layout your two ships.
+The first is two units long and the
+second is three units long.
+The grid has A1 at the top left and D4 at the bottom right.}
 
-    add_ship_3_proc = make_add_ship_proc(3)
-
-    # There should be a way to programatically create this for any number of sizes for ships
-    repl_procs = {
-      %w[2] => add_ship_2_proc,
-      %w[3] => add_ship_3_proc,
-      %w[quit done q d] => Proc.new {@repl.stop}
-    }
-
-    message =
-%{Where would you like your ships to be commander?
-Please select a ship to start.}
-
-    @repl = Repl.new('> ', message, repl_procs)
-
-    @repl.run
-  end
-
-  def make_add_ship_proc(size)
-    return Proc.new do
-      loc = prompt_ship_location(size)
-      add_ship(loc[0], loc[1], Ship.new(self, size))
+    sizes.each do |size|
+      loop do
+        coord_array = prompt_ship_location(size)
+        if add_ship(coord_array[0], coord_array[1], size)
+          break
+        else
+          puts "Try that again. ;)"
+        end
+      end
     end
   end
 
   def prompt_ship_location(size)
-    puts "Where would you like your #{size} ship? Please enter it in the following format: coord1-coord2"
-    print '> '
-    input = get_input
+    #loop do
+      puts "Enter the squares for the #{size}-unit ship. Please enter it in the following format: coord1 coord2"
+      print '> '
+      input = get_input
 
-    input.split('-')
+      coords = input.split(' ')
+      # break_boolean = false
+      # coords.each do |coord|
+      #   if (/([A-Z][1-9])/.match?(coord))
+      #     break_boolean = true
+      #   end
+      # end
+      # break if break_boolean
+    #end
   end
 
   def get_input
