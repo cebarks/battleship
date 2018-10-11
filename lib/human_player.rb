@@ -9,8 +9,12 @@ class HumanPlayer
   def turn; end
 
   def add_ship(coord_1, coord_2, ship)
-    @ships << ship
-    @board.add_ship(coord_1, coord_2, ship)
+    if @board.add_ship(coord_1, coord_2, ship)
+      @ships << ship
+      true
+    else
+      false
+    end
   end
 
   def fire(coord); end
@@ -29,7 +33,6 @@ class HumanPlayer
     add_ship_2_proc = make_add_ship_proc(2)
 
     add_ship_3_proc = make_add_ship_proc(3)
-    require 'pry'; binding.pry
 
     # There should be a way to programatically create this for any number of sizes for ships
     repl_procs = {

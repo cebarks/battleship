@@ -47,6 +47,9 @@ class Board
       coords.each do |coord|
         @board_hash[coord].content = ship
       end
+      true
+    else
+      false
     end
   end
 
