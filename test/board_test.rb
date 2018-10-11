@@ -72,5 +72,6 @@ D
     assert_equal false, @board.is_placement_valid?('A1', 'A4', 6)
     assert_equal false, @board.is_placement_valid?('A1', 'A4', 2)
     assert_equal false, @board.is_placement_valid?('A1', 'C3', 4)
+    # add test to make sure is_palcement_valid returns false if adding ontop of another ship
   end
 end

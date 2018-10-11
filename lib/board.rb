@@ -11,6 +11,8 @@ class Board
     @size = size
     @board_hash = Hash.new(nil)
     @allowed_letters = (alpha_hash[1]..alpha_hash[@size]).to_a
+
+    populate_keys
   end
 
   def populate_keys
@@ -45,6 +47,9 @@ class Board
       coords.each do |coord|
         @board_hash[coord].content = ship
       end
+      true
+    else
+      false
     end
   end
 
