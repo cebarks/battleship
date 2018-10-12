@@ -141,12 +141,25 @@ class Board
     row = row_keys.map do |key|
       @board_hash[key].get_char_to_display
     end
-    
+
     print letter
     row.each do |char|
       print " " + char
     end
   end
+
+  def hit?(coord)
+    @board_hash[coord].hit_status
+  end
+
+  def hit(coord)
+    @board_hash[coord].hit_status = true
+  end
+
+  def ship_hit?(coord)
+    @board_hash[coord].ship_hit?
+  end
+
 
   def alpha_hash
     alpha_hash = {}

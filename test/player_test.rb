@@ -34,6 +34,11 @@ class PlayerTest < Minitest::Test
     assert @human.add_ship("A1", "A2", 2)
     refute_equal [], @human.ships
     refute @human.add_ship("A1", "A4", 2)
-
   end
+
+  def test_fire
+    @human.add_ship("A1", "A2", 2)
+    assert @human.fire("D4")
+  end
+
 end

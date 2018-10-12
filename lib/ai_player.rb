@@ -44,4 +44,22 @@ class AIPlayer
   def print_board
     @board.print_board
   end
+
+  def fire(coord)
+    @board.hit(coord)
+    @board.ship_hit?(coord)
+  end
+
+  def get_attack_coord
+    @board.board_hash.keys.sample
+  end
+
+  def hit(coord)
+    @board.hit(coord)
+  end
+
+  def hit?(coord)
+    @board.hit?(coord)
+  end
+
 end
