@@ -42,7 +42,6 @@ class BattleshipGame
       turn(@player_2, @player_1)
       turn(@player_1, @player_2)
       @player_2.print_board
-      require 'pry'; binding.pry
     end
   end
 
