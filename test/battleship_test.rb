@@ -25,7 +25,7 @@ class BattleshipTest < Minitest::Test
   def test_get_input
     input = ''
     simulate_stdin('test1') { input = @battleship.get_input }
-    assert_equal 'test1', input
+    assert_equal 'TEST1', input
   end
 
   def test_get_input_if_nil

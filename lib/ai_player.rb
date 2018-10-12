@@ -1,5 +1,6 @@
 require './lib/board'
 require './lib/ship'
+require './lib/battleship_game'
 
 class AIPlayer
   attr_reader :ships, :board
@@ -10,9 +11,9 @@ class AIPlayer
   end
 
   def place_ships
-    ship_sizes = [2, 3] # array representing the ships and their sizes
+    sizes = BattleshipGame::SHIP_SIZES
     coords = pick_coordinates
-    ship_sizes.each do |size|
+    sizes.each do |size|
       loop do
         if add_ship(coords[0], coords[1], size)
           break
@@ -44,4 +45,22 @@ class AIPlayer
   def print_board
     @board.print_board
   end
+
+  def fire(coord)
+    @board.hit(coord)
+    @board.ship_hit?(coord)
+  end
+
+  def get_attack_coord
+    @board.board_hash.keys.sample
+  end
+
+  def hit(coord)
+    @board.hit(coord)
+  end
+
+  def hit?(coord)
+    @board.hit?(coord)
+  end
+
 end

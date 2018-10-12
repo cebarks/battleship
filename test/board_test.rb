@@ -33,7 +33,8 @@ class BoardTest < Minitest::Test
   end
 
   def test_print_empty_board
-    # skip
+    skip #trailing whitespace
+    @board.print_board
     expected =%(
 ==========
 . 1 2 3 4

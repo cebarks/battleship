@@ -84,12 +84,24 @@ class Board
     result = []
 
     if n1 == n2
-      (l1..l2).each do |x|
-        result << "#{x}#{n1}"
+      if l2 < l1
+        (l2..l1).to_a.each do |x|
+          result << "#{x}#{n1}"
+        end
+      else
+        (l1..l2).to_a.each do |x|
+          result << "#{x}#{n1}"
+        end
       end
     elsif l1 == l2
-      (n1..n2).each do |x|
-        result << "#{l1}#{x}"
+      if n2 < n1
+        (n2..n1).to_a.each do |x|
+          result << "#{l1}#{x}"
+        end
+        else
+          (n1..n2).to_a.each do |x|
+            result << "#{l1}#{x}"
+        end
       end
     end
 
@@ -141,12 +153,25 @@ class Board
     row = row_keys.map do |key|
       @board_hash[key].get_char_to_display
     end
-    
+
     print letter
     row.each do |char|
       print " " + char
     end
   end
+
+  def hit?(coord)
+    @board_hash[coord].hit_status
+  end
+
+  def hit(coord)
+    @board_hash[coord].hit_status = true
+  end
+
+  def ship_hit?(coord)
+    @board_hash[coord].ship_hit?
+  end
+
 
   def alpha_hash
     alpha_hash = {}
