@@ -1,5 +1,6 @@
 require './lib/board'
 require './lib/ship'
+require './lib/battleship_game'
 
 class AIPlayer
   attr_reader :ships, :board

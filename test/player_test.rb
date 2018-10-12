@@ -37,8 +37,9 @@ class PlayerTest < Minitest::Test
   end
 
   def test_fire
-    @human.add_ship("A1", "A2", 2)
-    assert @human.fire("D4")
+    @ai.add_ship("A1", "A2", 2)
+    refute @ai.fire("D4")
+    assert @ai.fire("A1")
   end
 
 end
