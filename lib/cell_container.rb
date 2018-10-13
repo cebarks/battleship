@@ -16,13 +16,14 @@ class CellContainer
   end
 
 
-  def get_char_to_display
-
+  def get_char_to_display(ships)
     if @content.is_a?(Ship)
       if @hit_status
         "H"
-      else
+      elsif ships
         "S"
+      else
+        " "
       end
     elsif @hit_status
       "M"

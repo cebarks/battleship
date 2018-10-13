@@ -23,7 +23,7 @@ class Board
     end
   end
 
-  def print_board
+  def print_board(ships)
     print_boarders
     print '.'
 
@@ -32,10 +32,34 @@ class Board
     end
     ('A'..alpha_hash[size]).each do |letter|
       print "\n"
-      print_row(letter)
+      print_row(letter, ships)
     end
 
     print_boarders
+  end
+
+  def print_row(letter, ships)
+    row_keys = @board_hash.keys.select do |key|
+      key.include?(letter)
+    end
+
+    row_keys.sort!
+    row = row_keys.map do |key|
+      @board_hash[key].get_char_to_display(ships)
+    end
+
+    print letter
+    row.each do |char|
+      print " " + char
+    end
+  end
+
+  def print_boarders
+    print "\n"
+    (@size * 2 + 2).times do
+      print '='
+    end
+    print "\n"
   end
 
   def add_ship(coord_1, coord_2, ship)
@@ -136,30 +160,6 @@ class Board
     true
   end
 
-  def print_boarders
-    print "\n"
-    (@size * 2 + 2).times do
-      print '='
-    end
-    print "\n"
-  end
-
-  def print_row(letter)
-    row_keys = @board_hash.keys.select do |key|
-      key.include?(letter)
-    end
-
-    row_keys.sort!
-    row = row_keys.map do |key|
-      @board_hash[key].get_char_to_display
-    end
-
-    print letter
-    row.each do |char|
-      print " " + char
-    end
-  end
-
   def hit?(coord)
     @board_hash[coord].hit_status
   end
@@ -171,7 +171,6 @@ class Board
   def ship_hit?(coord)
     @board_hash[coord].ship_hit?
   end
-
 
   def alpha_hash
     alpha_hash = {}

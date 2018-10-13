@@ -42,8 +42,9 @@ class AIPlayer
     coordinates
   end
 
-  def print_board
-    @board.print_board
+  def print_board(ships)
+    print 'AI board'
+    @board.print_board(ships)
   end
 
   def fire(coord)
