@@ -47,5 +47,15 @@ class PlayerTest < Minitest::Test
     assert (/([A-Z][1-9])/.match?(@ai.get_attack_coord))
   end
 
+  def test_player_can_hit_ship
+    refute @ai.hit?("A1")
+    refute @human.hit?("B1")
+    @ai.hit("A1")
+    @human.hit("B1")
+    assert @ai.hit?("A1")
+    assert @human.hit?("B1")
+  end
+
+
 
 end

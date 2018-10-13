@@ -33,7 +33,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_print_empty_board
-    skip #trailing whitespace
+    skip # Atom auto-deletes necessary trailing whitespace
     @board.print_board
     expected =%(
 ==========
@@ -70,4 +70,11 @@ D
     assert_equal false, @board.is_placement_valid?('A1', 'C3', 4)
     # add test to make sure is_palcement_valid returns false if adding ontop of another ship
   end
+
+  def test_it_can_mark_a_coordinate_as_hit
+    refute @board.hit?("A1")
+    @board.hit("A1")
+    assert @board.hit?("A1")
+  end
+
 end
