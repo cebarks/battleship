@@ -12,31 +12,29 @@ class CellContainer
 
   def ship_hit?
     return false if empty?
+
     @content.is_a?(Ship) && @hit_status
   end
 
+  def hit
+    @content.add_hit unless empty?
+  end
 
   def get_char_to_display(ships)
     if @content.is_a?(Ship)
       if @hit_status
-        "H"
+        'H'
       elsif ships
-        "S"
+        'S'
+      elsif @content.destroyed
+        'D'
       else
-        " "
+        ' '
       end
     elsif @hit_status
-      "M"
+      'M'
     else
-      " "
+      ' '
     end
-
-    # if @content.is_a?(Ship) && @hit_status
-    #   "H"
-    # elsif @hit_status
-    #   "M"
-    # else
-    #   " "
-    # end
   end
 end

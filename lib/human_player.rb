@@ -3,10 +3,11 @@ require './lib/board'
 require './lib/repl'
 
 class HumanPlayer
-  attr_reader :board, :ships
+  attr_reader :board, :ships, :shots_taken
   def initialize
     @board = Board.new
     @ships = []
+    @shots_taken = 0
   end
 
   def add_ship(coord_1, coord_2, size)
@@ -65,6 +66,15 @@ The grid has A1 at the top left and D4 at the bottom right.}
     #end
   end
 
+  def check_ships
+    @ships.each do |ship|
+      if ship.destroyed
+        puts "Your #{ship.size}-ship was destroyed!"
+        @ships.delete(ship)
+      end
+    end
+  end
+
   def get_attack_coord
     puts "Enter your attack coord:"
     print '> '
@@ -72,6 +82,7 @@ The grid has A1 at the top left and D4 at the bottom right.}
   end
 
   def fire(coord)
+    @shots_taken += 1
     @board.hit(coord)
     @board.ship_hit?(coord)
   end

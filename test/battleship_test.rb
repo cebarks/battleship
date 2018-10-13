@@ -2,7 +2,7 @@ require './test/test_helper'
 
 require './lib/battleship_game'
 
-class BattleshipTest < Minitest::Test
+class BattleshipGameTest < Minitest::Test
   def setup
     @battleship = BattleshipGame.new
   end
@@ -32,6 +32,27 @@ class BattleshipTest < Minitest::Test
     input = ''
     simulate_stdin() { input = @battleship.get_input }
     assert_equal '', input
+  end
+
+  def test_it_can_check_for_losses
+    assert_equal [@battleship.player_1, @battleship.player_2], @battleship.check_for_losses
+    # @battleship.player_1.ships = []
+  end
+
+  def test_it_can_check_for_destroyed_ships
+    @battleship.player_1.add_ship("A1", "A2", 2)
+    @battleship.player_1.add_ship("B4", "D4", 3)
+    @battleship.player_2.add_ship("A1", "A2", 2)
+    @battleship.player_2.add_ship("B4", "D4", 3)
+    assert_equal 2, @battleship.player_1.ships.size
+    assert_equal 2, @battleship.player_2.ships.size
+    @battleship.player_1.hit("A1")
+    @battleship.player_1.hit("A2")
+    @battleship.player_2.hit("A1")
+    @battleship.player_2.hit("A2")
+    @battleship.check_ships.each do |player|
+      assert_equal 1, player.ships.size
+    end
   end
 
 end
