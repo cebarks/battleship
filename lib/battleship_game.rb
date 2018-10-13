@@ -35,9 +35,9 @@ class BattleshipGame
 
     @player_2.place_ships
     @player_1.place_ships
-    @player_1.print_board(true)
 
-    puts 'May the best player win!'
+    puts "May the best player win!"
+
     enter_to_continue
 
     game_loop
@@ -72,18 +72,18 @@ class BattleshipGame
         puts 'Congratulations, you won!'
       end
     end
+    
     puts "This game took #{game_length.round(0)} seconds to play."
     puts "The AI took #{@player_1.shots_taken} shots this game."
     puts "You took #{@player_2.shots_taken} shots this game."
   end
-
   def turn(player, target)
     coord = ''
 
     if player.is_a?(HumanPlayer)
       puts 'Your hits and misses.'
-      # target.print_board(false)
-      target.print_board(true) # Make testing easier by cheating!!!!
+      target.print_board(false)
+      # target.print_board(true) # Make testing easier by cheating!!!!
     end
     loop do
       coord = player.get_attack_coord
@@ -128,6 +128,13 @@ class BattleshipGame
 
   def check_ships
     @players.each(&:check_ships)
+  end
+
+  def enter_to_continue
+    puts "Press ENTER to continue."
+    until get_input == ""
+      puts "Press ENTER to continue."
+    end
   end
 
   def get_input
