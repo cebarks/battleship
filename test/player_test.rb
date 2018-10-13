@@ -11,15 +11,6 @@ class PlayerTest < Minitest::Test
     @ai = AIPlayer.new
   end
 
-  def test_has_ships
-    skip
-   @human.add_ship("A1", "A3", 3) # creates Ship object in this method and pass it to the board and adds it to ships array
-    @ai.add_ship("A1", "A3", 3)
-    # This is basically a passthrough - consider removing and just passing straing to Board method add_ship
-    assert_equal 1, @human.ships.length
-    assert_equal 1, @ai.ships.length
-  end
-
   def test_has_board
     assert_instance_of Board, @human.board
     assert_instance_of Board, @ai.board

@@ -130,13 +130,6 @@ class BattleshipGame
     @players.each(&:check_ships)
   end
 
-  def enter_to_continue
-    puts "Press ENTER to continue."
-    until get_input == ""
-      puts "Press ENTER to continue."
-    end
-  end
-
   def get_input
     input = $stdin.gets
     return '' if input.nil?

@@ -23,11 +23,13 @@ class CellContainer
   def get_char_to_display(ships)
     if @content.is_a?(Ship)
       if @hit_status
-        'H'
+        if @content.destroyed
+          'D'
+        else
+          'H'
+        end
       elsif ships
-        'S'
-      elsif @content.destroyed
-        'D'
+       'S'
       else
         ' '
       end
