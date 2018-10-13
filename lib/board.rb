@@ -165,6 +165,7 @@ class Board
   end
 
   def hit(coord)
+    @board_hash[coord].hit
     @board_hash[coord].hit_status = true
   end
 

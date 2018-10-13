@@ -11,6 +11,7 @@ class BattleshipGame
   def initialize
     @player_1 = HumanPlayer.new
     @player_2 = AIPlayer.new
+    @players = [@player_1, @player_2]
   end
 
   def start
@@ -41,19 +42,24 @@ class BattleshipGame
 
   def game_loop
     loop do
+      puts '-' * 30
+      puts "NEXT ROUND\n"
       turn(@player_2, @player_1)
       enter_to_continue
       turn(@player_1, @player_2)
-      puts '-' * 30
-      puts "NEXT ROUND\n"
+
+      check_ships
     end
   end
+
+
   def turn(player, target)
     coord = ""
 
     if player.is_a?(HumanPlayer)
       puts "Your hits and misses."
-      target.print_board(false)
+      #target.print_board(false)
+      target.print_board(true) # Make testing easier by cheating!!!!
     end
     loop do
       coord = player.get_attack_coord
@@ -102,9 +108,14 @@ class BattleshipGame
     end
   end
 
+  def check_ships
+    @players.each do |player|
+      player.check_ships
+    end
+  end
+
   def get_input
     input = $stdin.gets
-    # require 'pry';binding.pry
     return '' if input.nil?
 
     input.chomp.upcase

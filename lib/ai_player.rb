@@ -33,6 +33,16 @@ class AIPlayer
     end
   end
 
+  def check_ships
+    @ships.each do |ship|
+      require 'pry'; binding.pry
+      if ship.destroyed
+        puts "You destroyed the AI's #{ship.size}-ship!"
+        @ships.delete(ship)
+      end
+    end
+  end
+
   def pick_coordinates # returns an array of 2 coordinates
     coordinates = []
     2.times do

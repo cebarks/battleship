@@ -65,6 +65,16 @@ The grid has A1 at the top left and D4 at the bottom right.}
     #end
   end
 
+  def check_ships
+    @ships.each do |ship|
+      require 'pry'; binding.pry
+      if ship.destroyed
+        puts "Your #{ship.size}-ship was destroyed!"
+        @ships.delete(ship)
+      end
+    end
+  end
+
   def get_attack_coord
     puts "Enter your attack coord:"
     print '> '
