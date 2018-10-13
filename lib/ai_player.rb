@@ -1,6 +1,5 @@
 require './lib/board'
 require './lib/ship'
-require './lib/battleship_game'
 
 class AIPlayer
   attr_reader :ships, :board
@@ -42,8 +41,9 @@ class AIPlayer
     coordinates
   end
 
-  def print_board
-    @board.print_board
+  def print_board(ships)
+    print 'AI board'
+    @board.print_board(ships)
   end
 
   def fire(coord)

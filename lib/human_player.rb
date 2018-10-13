@@ -84,7 +84,8 @@ The grid has A1 at the top left and D4 at the bottom right.}
     input.chomp.upcase
   end
 
-  def print_board
-    @board.print_board
+  def print_board(ships)
+    print 'Your Board'
+    @board.print_board(ships)
   end
 end
