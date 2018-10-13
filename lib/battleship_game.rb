@@ -31,9 +31,12 @@ class BattleshipGame
   end
 
   def game_init
+    @start_time = Time.now
+
     @player_2.place_ships
     @player_1.place_ships
     @player_1.print_board(true)
+
     puts "May the best player win!"
     enter_to_continue
 
@@ -49,9 +52,30 @@ class BattleshipGame
       turn(@player_1, @player_2)
 
       check_ships
+      losing_players = check_for_losses
+
+      unless losing_players.empty?
+        end_of_game(losing_players)
+        break
+      end
     end
   end
 
+  def end_of_game(losing_players)
+    game_length = Time.now - @start_time
+    if losing_players.size == 2
+      puts "Like in real war, you both lose."
+    else
+      if losing_players[0].is_a?(HumanPlayer)
+        puts "So sorry, you lost."
+      else
+        puts "Congratulations, you won!"
+      end
+    end
+    puts "This game took #{game_length.round(0)} seconds to play."
+    puts "The AI took #{@player_1.shots_taken} shots this game."
+    puts "You took #{@player_2.shots_taken} shots this game."
+  end
 
   def turn(player, target)
     coord = ""
@@ -105,6 +129,12 @@ class BattleshipGame
     puts "Press ENTER to continue."
     until get_input == ""
       puts "Press ENTER to continue."
+    end
+  end
+
+  def check_for_losses
+    @players.select do |player|
+      player.ships.empty?
     end
   end
 

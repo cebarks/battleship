@@ -2,11 +2,12 @@ require './lib/board'
 require './lib/ship'
 
 class AIPlayer
-  attr_reader :ships, :board
+  attr_reader :ships, :board, :shots_taken
 
   def initialize
     @ships = []
     @board = Board.new
+    @shots_taken = 0
   end
 
   def place_ships
@@ -35,7 +36,6 @@ class AIPlayer
 
   def check_ships
     @ships.each do |ship|
-      require 'pry'; binding.pry
       if ship.destroyed
         puts "You destroyed the AI's #{ship.size}-ship!"
         @ships.delete(ship)
@@ -57,6 +57,7 @@ class AIPlayer
   end
 
   def fire(coord)
+    @shots_taken += 1
     @board.hit(coord)
     @board.ship_hit?(coord)
   end
