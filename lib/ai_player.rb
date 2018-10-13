@@ -73,5 +73,4 @@ class AIPlayer
   def hit?(coord)
     @board.hit?(coord)
   end
-
 end

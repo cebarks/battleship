@@ -6,7 +6,7 @@ require './lib/repl'
 class BattleshipGame
   attr_reader :player_1, :player_2
 
-  SHIP_SIZES = [2, 3]
+  SHIP_SIZES = [2, 3].freeze
 
   def initialize
     @player_1 = HumanPlayer.new
@@ -37,7 +37,7 @@ class BattleshipGame
     @player_1.place_ships
     @player_1.print_board(true)
 
-    puts "May the best player win!"
+    puts 'May the best player win!'
     enter_to_continue
 
     game_loop
@@ -64,12 +64,12 @@ class BattleshipGame
   def end_of_game(losing_players)
     game_length = Time.now - @start_time
     if losing_players.size == 2
-      puts "Like in real war, you both lose."
+      puts 'Like in real war, you both lose.'
     else
       if losing_players[0].is_a?(HumanPlayer)
-        puts "So sorry, you lost."
+        puts 'So sorry, you lost.'
       else
-        puts "Congratulations, you won!"
+        puts 'Congratulations, you won!'
       end
     end
     puts "This game took #{game_length.round(0)} seconds to play."
@@ -78,18 +78,17 @@ class BattleshipGame
   end
 
   def turn(player, target)
-    coord = ""
+    coord = ''
 
     if player.is_a?(HumanPlayer)
-      puts "Your hits and misses."
-      #target.print_board(false)
+      puts 'Your hits and misses.'
+      # target.print_board(false)
       target.print_board(true) # Make testing easier by cheating!!!!
     end
     loop do
       coord = player.get_attack_coord
-      if target.board.is_coord_valid?(coord) && !target.hit?(coord)
-        break
-      end
+      break if target.board.is_coord_valid?(coord) && !target.hit?(coord)
+
       if player.is_a?(HumanPlayer)
         puts "That's not a valid coord to fire upon! Try again"
       end
@@ -100,15 +99,15 @@ class BattleshipGame
     if player.is_a?(HumanPlayer)
       target.print_board(false)
       if success
-        puts "Congrats! You hit a ship!"
+        puts 'Congrats! You hit a ship!'
       else
-        puts "You missed! So sad. Stop firing at whales."
+        puts 'You missed! So sad. Stop firing at whales.'
       end
 
       enter_to_continue
 
     else
-      puts "AI is thinking..."
+      puts 'AI is thinking...'
       sleep(1)
       if success
         puts "So sad. Your ship at #{coord} was hit!"
@@ -116,19 +115,8 @@ class BattleshipGame
         puts "Yay! Your enemy missed their shot fired at #{coord}"
       end
 
-      puts "The current state of your board."
+      puts 'The current state of your board.'
       target.print_board(true)
-    end
-  end
-
-  def print_instructions
-    puts 'Welcome to BATTLESHIP. The objective of this game is to sink the ships of your opponent before they sink yours. You will be asked to place your ships on a grid. Then, you will be asked where you want to fire your shots! The game is over when your or your oppenents ships have all been sunk!'
-  end
-
-  def enter_to_continue
-    puts "Press ENTER to continue."
-    until get_input == ""
-      puts "Press ENTER to continue."
     end
   end
 
@@ -139,9 +127,7 @@ class BattleshipGame
   end
 
   def check_ships
-    @players.each do |player|
-      player.check_ships
-    end
+    @players.each(&:check_ships)
   end
 
   def get_input
@@ -151,8 +137,17 @@ class BattleshipGame
     input.chomp.upcase
   end
 
+  def print_instructions
+    puts 'Welcome to BATTLESHIP. The objective of this game is to sink the ships of your opponent before they sink yours. You will be asked to place your ships on a grid. Then, you will be asked where you want to fire your shots! The game is over when your or your oppenents ships have all been sunk!'
+  end
+
+  def enter_to_continue
+    puts 'Press ENTER to continue.'
+    puts 'Press ENTER to continue.' until get_input == ''
+  end
+
   def exit_game
-    puts 'Thanks for playing!'
+    puts "Thanks for playing!"
     @repl.stop
   end
 end

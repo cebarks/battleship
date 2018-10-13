@@ -3,6 +3,7 @@ require './lib/human_player'
 require './lib/ship'
 require './lib/ai_player'
 require './lib/board'
+require './lib/battleship_game'
 
 class PlayerTest < Minitest::Test
   def setup
@@ -41,5 +42,10 @@ class PlayerTest < Minitest::Test
     refute @ai.fire("D4")
     assert @ai.fire("A1")
   end
+
+  def test_ai_can_pick_valid_attack_coordinates
+    assert (/([A-Z][1-9])/.match?(@ai.get_attack_coord))
+  end
+
 
 end

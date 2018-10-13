@@ -50,7 +50,7 @@ class Board
 
     print letter
     row.each do |char|
-      print " " + char
+      print ' ' + char
     end
   end
 
@@ -122,9 +122,9 @@ class Board
         (n2..n1).to_a.each do |x|
           result << "#{l1}#{x}"
         end
-        else
-          (n1..n2).to_a.each do |x|
-            result << "#{l1}#{x}"
+      else
+        (n1..n2).to_a.each do |x|
+          result << "#{l1}#{x}"
         end
       end
     end
