@@ -30,8 +30,11 @@ class PlayerTest < Minitest::Test
 
   def test_fire
     @ai.add_ship("A1", "A2", 2)
+    @human.add_ship("B1", "B2", 2)
     refute @ai.fire("D4")
+    refute @human.fire("D4")
     assert @ai.fire("A1")
+    assert @human.fire("B1")
   end
 
   def test_ai_can_pick_valid_attack_coordinates

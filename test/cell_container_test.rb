@@ -23,4 +23,23 @@ class CellContainerTest < Minitest::Test
     @cell_container.content = Ship.new(nil, 2)
     refute @cell_container.empty?
   end
+  
+  def test_it_displays_correct_character_when_empty
+    assert_equal ' ', @cell_container.get_char_to_display(false)
+    @cell_container.hit_status = true
+    assert_equal 'M', @cell_container.get_char_to_display(false)
+  end
+  
+  def test_it_displays_correct_character_when_contains_ship
+    @cell_container.content = Ship.new(nil, 2)
+    assert_equal ' ', @cell_container.get_char_to_display(false)
+    assert_equal 'S', @cell_container.get_char_to_display(true)
+    @cell_container.hit_status = true
+    assert_equal 'H', @cell_container.get_char_to_display(false)
+    @cell_container.content.add_hit
+    @cell_container.content.add_hit
+    assert_equal 'D', @cell_container.get_char_to_display(false)
+  end
+  
+  
 end

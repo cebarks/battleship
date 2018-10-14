@@ -2,3 +2,4 @@ coverage
 .DS_Store
 Gemfile.lock
 assets
+tmp
