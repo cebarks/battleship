@@ -50,20 +50,21 @@ The grid has A1 at the top left and D4 at the bottom right.}
   end
 
   def prompt_ship_location(size)
-    #loop do
+    loop do
       puts "Enter the squares for the #{size}-unit ship. Please enter it in the following format: coord1 coord2"
       print '> '
       input = get_input
-
       coords = input.split(' ')
-      # break_boolean = false
-      # coords.each do |coord|
-      #   if (/([A-Z][1-9])/.match?(coord))
-      #     break_boolean = true
-      #   end
-      # end
-      # break if break_boolean
-    #end
+      
+      coords = coords.select do |coord|
+        /([A-Z][1-9])/.match?(coord)
+      end
+      if coords.size == 2
+        return coords
+      else
+        puts "Enter the coordinates as a letter followed by a number, e.g. A1 A2"
+      end
+    end
   end
 
   def check_ships
@@ -78,7 +79,16 @@ The grid has A1 at the top left and D4 at the bottom right.}
   def get_attack_coord
     puts "Enter your attack coord:"
     print '> '
-    get_input
+    coord = get_input
+    loop do
+      if /([A-Z][1-9])/.match?(coord)
+        return coord
+      else 
+        puts "Enter a coordinate as a letter followed by a number, e.g. A1"
+        print '> '
+        coord = get_input
+      end
+    end
   end
 
   def fire(coord)
