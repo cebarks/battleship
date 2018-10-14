@@ -1,45 +1,43 @@
 
 class Repl
-  def initialize(prompt, message, hash)
-    @prompt = prompt
-    @message = message
-    @trigger_hash = hash
-    @continue = true
+  def initialize
+    @prompt = '>'
+    @message = %{Welcome to BATTLESHIP!
+    Would you like to (p)lay, read the (i)nstructions, or (q)uit?}
+    @trigger_hash = {
+      %w[p play] => :play,
+      %w[i instructions] => :instructions,
+      %w[q quit] => :quit
+    }
+    @trigger_hash.default = :invalid
   end
 
   def run
-    loop do
-      break if !@continue
       puts @message
       print @prompt
-      input = get_input
+      get_response_from_trigger(Repl.get_input)
+  end
 
-      proc = get_proc_from_trigger(input)
-
-      proc.call()
-      break if !@continue
+  def get_response_from_trigger(trigger)
+    trigger_key = []
+    @trigger_hash.keys.each do |key|
+      if key.include?(trigger)
+        trigger_key = key
+        break
+      end
     end
+
+    @trigger_hash[trigger_key]
   end
 
-  def stop
-    @continue = false
-  end
-
-  def get_input
+  ##
+  # This input returns a non-nil string of the input pulled from $stdin
+  #
+  def self.get_input
     input = $stdin.gets
-    #require 'pry';binding.pry
     if input.nil?
       return ""
     end
-    input.chomp.downcase
-  end
-
-  def get_proc_from_trigger(trigger)
-    proc_key = []
-    @trigger_hash.keys.each do |key|
-      proc_key = key if key.include?(trigger)
-    end
-
-    @trigger_hash[proc_key]
+    input.chomp
   end
 end

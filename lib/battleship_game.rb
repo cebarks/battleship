@@ -12,22 +12,26 @@ class BattleshipGame
     @player_1 = HumanPlayer.new
     @player_2 = AIPlayer.new
     @players = [@player_1, @player_2]
+    @running = false
   end
 
   def start
-    repl_procs = {
-      %w[p play] => method(:game_init),
-      %w[i instructions] => method(:print_instructions),
-      %w[q quit] => method(:exit_game)
-    }
+    @running = true
+    @repl = Repl.new
 
-    message =
-      %{Welcome to BATTLESHIP!
-      Would you like to (p)lay, read the (i)nstructions, or (q)uit?}
-
-    @repl = Repl.new('> ', message, repl_procs)
-
-    @repl.run
+    while @running
+      trigger = @repl.run
+      case trigger
+      when :play
+        game_init
+      when :instructions
+        print_instructions
+      when :quit
+        exit_game
+      when :invalid
+        puts "Invalid Input. Try Again "
+      end
+    end
   end
 
   def game_init
@@ -72,11 +76,12 @@ class BattleshipGame
         puts 'Congratulations, you won!'
       end
     end
-    
+
     puts "This game took #{game_length.round(0)} seconds to play."
     puts "The AI took #{@player_1.shots_taken} shots this game."
     puts "You took #{@player_2.shots_taken} shots this game."
   end
+
   def turn(player, target)
     coord = ''
 
@@ -148,6 +153,6 @@ class BattleshipGame
 
   def exit_game
     puts "Thanks for playing!"
-    @repl.stop
+    @running = false
   end
 end
