@@ -11,15 +11,6 @@ class PlayerTest < Minitest::Test
     @ai = AIPlayer.new
   end
 
-  def test_has_ships
-    skip
-   @human.add_ship("A1", "A3", 3) # creates Ship object in this method and pass it to the board and adds it to ships array
-    @ai.add_ship("A1", "A3", 3)
-    # This is basically a passthrough - consider removing and just passing straing to Board method add_ship
-    assert_equal 1, @human.ships.length
-    assert_equal 1, @ai.ships.length
-  end
-
   def test_has_board
     assert_instance_of Board, @human.board
     assert_instance_of Board, @ai.board
@@ -39,13 +30,26 @@ class PlayerTest < Minitest::Test
 
   def test_fire
     @ai.add_ship("A1", "A2", 2)
+    @human.add_ship("B1", "B2", 2)
     refute @ai.fire("D4")
+    refute @human.fire("D4")
     assert @ai.fire("A1")
+    assert @human.fire("B1")
   end
 
   def test_ai_can_pick_valid_attack_coordinates
     assert (/([A-Z][1-9])/.match?(@ai.get_attack_coord))
   end
+
+  def test_player_can_hit_ship
+    refute @ai.hit?("A1")
+    refute @human.hit?("B1")
+    @ai.hit("A1")
+    @human.hit("B1")
+    assert @ai.hit?("A1")
+    assert @human.hit?("B1")
+  end
+
 
 
 end

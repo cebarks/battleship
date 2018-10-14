@@ -33,19 +33,17 @@ class BoardTest < Minitest::Test
   end
 
   def test_print_empty_board
-    skip #trailing whitespace
-    @board.print_board
     expected =%(
 ==========
 . 1 2 3 4
-A
-B
-C
-D
+A        
+B        
+C        
+D        
 ==========
 )
     assert_output(expected, '') do
-      @board.print_board
+      @board.print_board(false)
     end
   end
 
@@ -62,12 +60,22 @@ D
   end
 
   def test_it_can_validate_ship_placement
-    assert_equal true, @board.is_placement_valid?('A1', 'A2', 2)
-    assert_equal true, @board.is_placement_valid?('B1', 'B3', 3)
-    assert_equal true, @board.is_placement_valid?('A1', 'B1', 2)
-    assert_equal false, @board.is_placement_valid?('A1', 'A4', 6)
-    assert_equal false, @board.is_placement_valid?('A1', 'A4', 2)
-    assert_equal false, @board.is_placement_valid?('A1', 'C3', 4)
-    # add test to make sure is_palcement_valid returns false if adding ontop of another ship
+    assert @board.is_placement_valid?('A1', 'A2', 2)
+    assert @board.is_placement_valid?('B1', 'B3', 3)
+    assert @board.is_placement_valid?('A1', 'B1', 2)
+    assert @board.is_placement_valid?('B1', 'A1', 2)
+    assert @board.is_placement_valid?('C4', 'C2', 3)
+    refute @board.is_placement_valid?('A1', 'A4', 6)
+    refute @board.is_placement_valid?('A1', 'A4', 2)
+    refute @board.is_placement_valid?('A1', 'C3', 4)
+    @board.add_ship('A1', 'A2', Ship.new(nil, 2))
+    refute @board.is_placement_valid?('A1', 'B1', 2)
   end
+
+  def test_it_can_mark_a_coordinate_as_hit
+    refute @board.hit?("A1")
+    @board.hit("A1")
+    assert @board.hit?("A1")
+  end
+
 end
