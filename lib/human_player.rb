@@ -1,33 +1,9 @@
 require './lib/ship'
 require './lib/board'
 require './lib/repl'
+require './lib/player'
 
-class HumanPlayer
-  attr_reader :board, :ships, :shots_taken
-  def initialize
-    @board = Board.new
-    @ships = []
-    @shots_taken = 0
-  end
-
-  def add_ship(coord_1, coord_2, size)
-    ship = Ship.new(self, size)
-    if @board.add_ship(coord_1, coord_2, ship)
-      @ships << ship
-      true
-    else
-      false
-    end
-  end
-
-  def hit(coord)
-    @board.hit(coord)
-  end
-
-  def hit?(coord)
-    @board.hit?(coord)
-  end
-
+class HumanPlayer < Player
   def place_ships
     sizes = BattleshipGame::SHIP_SIZES
 
@@ -67,15 +43,6 @@ The grid has A1 at the top left and D4 at the bottom right.}
     end
   end
 
-  def check_ships
-    @ships.each do |ship|
-      if ship.destroyed
-        puts "Your #{ship.size}-ship was destroyed!"
-        @ships.delete(ship)
-      end
-    end
-  end
-
   def get_attack_coord
     puts "Enter your attack coord:"
     print '> '
@@ -91,22 +58,11 @@ The grid has A1 at the top left and D4 at the bottom right.}
     end
   end
 
-  def fire(coord)
-    @shots_taken += 1
-    @board.hit(coord)
-    @board.ship_hit?(coord)
-  end
-
   def get_input
     input = $stdin.gets
     if input.nil?
       return ""
     end
     input.chomp.upcase
-  end
-
-  def print_board(ships)
-    print 'Your Board'
-    @board.print_board(ships)
   end
 end
