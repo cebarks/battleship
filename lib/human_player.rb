@@ -1,55 +1,24 @@
 require './lib/ship'
 require './lib/board'
 require './lib/repl'
+require './lib/player'
 
-class HumanPlayer
-  attr_reader :board, :ships, :shots_taken
-  def initialize
-    @board = Board.new
-    @ships = []
-    @shots_taken = 0
-  end
-
-  def add_ship(coord_1, coord_2, size)
-    ship = Ship.new(self, size)
-    if @board.add_ship(coord_1, coord_2, ship)
-      @ships << ship
-      true
-    else
-      false
-    end
-  end
-
-  def hit(coord)
-    @board.hit(coord)
-  end
-
-  def hit?(coord)
-    @board.hit?(coord)
-  end
-
+class HumanPlayer < Player
+  
   def place_ships
-    sizes = BattleshipGame::SHIP_SIZES
-
     puts %{I have laid out my ships on the grid.
 You now need to layout your two ships.
 The first is two units long and the
 second is three units long.
 The grid has A1 at the top left and D4 at the bottom right.}
-
-    sizes.each do |size|
-      loop do
-        coord_array = prompt_ship_location(size)
-        if add_ship(coord_array[0], coord_array[1], size)
-          break
-        else
-          puts "Try that again. ;)"
-        end
-      end
-    end
+  super
   end
 
-  def prompt_ship_location(size)
+  def print_board
+    super(true)
+  end
+  
+  def pick_coordinates(size)
     loop do
       puts "Enter the squares for the #{size}-unit ship. Please enter it in the following format: coord1 coord2"
       print '> '
@@ -67,15 +36,6 @@ The grid has A1 at the top left and D4 at the bottom right.}
     end
   end
 
-  def check_ships
-    @ships.each do |ship|
-      if ship.destroyed
-        puts "Your #{ship.size}-ship was destroyed!"
-        @ships.delete(ship)
-      end
-    end
-  end
-
   def get_attack_coord
     puts "Enter your attack coord:"
     print '> '
@@ -84,17 +44,29 @@ The grid has A1 at the top left and D4 at the bottom right.}
       if /([A-Z][1-9])/.match?(coord)
         return coord
       else 
+        puts "That's not a valid coord to fire upon! Try again\n"
         puts "Enter a coordinate as a letter followed by a number, e.g. A1"
         print '> '
         coord = get_input
       end
     end
   end
+  
+  def try_again(size)
+    puts "Try that again ;)"
+    super
+  end
 
-  def fire(coord)
-    @shots_taken += 1
-    @board.hit(coord)
-    @board.ship_hit?(coord)
+  def lose
+    puts 'So sorry, you lost.'
+  end
+
+  def print_hit(success, coord)
+    if success
+      puts "Congrats! You hit a ship at #{coord}!"
+    else
+      puts "You missed! So sad. Stop firing at whales at #{coord}."
+    end
   end
 
   def get_input
@@ -103,10 +75,5 @@ The grid has A1 at the top left and D4 at the bottom right.}
       return ""
     end
     input.chomp.upcase
-  end
-
-  def print_board(ships)
-    print 'Your Board'
-    @board.print_board(ships)
   end
 end
