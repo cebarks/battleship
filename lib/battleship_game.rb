@@ -38,13 +38,6 @@ class BattleshipGame
     @start_time = Time.now
 
     @player_2.place_ships
-
-    puts %{I have laid out my ships on the grid.
-You now need to layout your two ships.
-The first is two units long and the
-second is three units long.
-The grid has A1 at the top left and D4 at the bottom right.}
-
     @player_1.place_ships
 
     puts "May the best player win!"
@@ -77,16 +70,12 @@ The grid has A1 at the top left and D4 at the bottom right.}
     if losing_players.size == 2
       puts 'Like in real war, you both lose.'
     else
-      if losing_players[0].is_a?(HumanPlayer)
-        puts 'So sorry, you lost.'
-      else
-        puts 'Congratulations, you won!'
-      end
+      losing_players[0].lose
     end
 
     puts "This game took #{game_length.round(0)} seconds to play."
-    puts "The AI took #{@player_1.shots_taken} shots this game."
-    puts "You took #{@player_2.shots_taken} shots this game."
+    puts "The #{@player_1.type} took #{@player_1.shots_taken} shots this game."
+    puts "The #{@player_2.type} took #{@player_2.shots_taken} shots this game."
   end
 
   def turn(player, target)
@@ -100,34 +89,15 @@ The grid has A1 at the top left and D4 at the bottom right.}
     loop do
       coord = player.get_attack_coord
       break if target.board.is_coord_valid?(coord) && !target.hit?(coord)
-
-      if player.is_a?(HumanPlayer)
-        puts "That's not a valid coord to fire upon! Try again"
-      end
     end
 
     success = target.fire(coord)
+    player.print_hit(success, coord)
 
     if player.is_a?(HumanPlayer)
       target.print_board(false)
-      if success
-        puts 'Congrats! You hit a ship!'
-      else
-        puts 'You missed! So sad. Stop firing at whales.'
-      end
-
       enter_to_continue
-
     else
-      puts 'AI is thinking...'
-      sleep(1)
-      if success
-        puts "So sad. Your ship at #{coord} was hit!"
-      else
-        puts "Yay! Your enemy missed their shot fired at #{coord}"
-      end
-
-      puts 'The current state of your board.'
       target.print_board(true)
     end
   end

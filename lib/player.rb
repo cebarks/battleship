@@ -39,7 +39,7 @@ class Player
   def check_ships
     @ships.each do |ship|
       if ship.destroyed
-        puts "#{ship.owner.class.to_s.gsub("Player",'')} #{ship.size}-ship was destroyed!"
+        puts "#{ship.owner.type} #{ship.size}-ship was destroyed!"
         @ships.delete(ship)
       end
     end
@@ -60,7 +60,11 @@ class Player
   end
 
   def print_board(display_ships)
-    print "#{self.class.to_s.gsub("Player",' Board')}"
+    print "#{self.type} Board"
     @board.print_board(display_ships)
+  end
+
+  def type
+    self.class.to_s.gsub("Player",'')
   end
 end
