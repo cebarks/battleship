@@ -4,28 +4,13 @@ require './lib/repl'
 require './lib/player'
 
 class HumanPlayer < Player
-  def place_ships
-    sizes = BattleshipGame::SHIP_SIZES
-
-    puts %{I have laid out my ships on the grid.
-You now need to layout your two ships.
-The first is two units long and the
-second is three units long.
-The grid has A1 at the top left and D4 at the bottom right.}
-
-    sizes.each do |size|
-      loop do
-        coord_array = prompt_ship_location(size)
-        if add_ship(coord_array[0], coord_array[1], size)
-          break
-        else
-          puts "Try that again. ;)"
-        end
-      end
-    end
+  
+  def try_again(size)
+    puts "Try that again ;)"
+    super
   end
-
-  def prompt_ship_location(size)
+  
+  def pick_coordinates(size)
     loop do
       puts "Enter the squares for the #{size}-unit ship. Please enter it in the following format: coord1 coord2"
       print '> '

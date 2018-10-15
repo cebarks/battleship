@@ -1,10 +1,29 @@
 
 class Player
   attr_reader :board, :ships, :shots_taken
+  
   def initialize
     @board = Board.new
     @ships = []
     @shots_taken = 0
+  end
+
+  def place_ships
+    sizes = BattleshipGame::SHIP_SIZES
+    sizes.each do |size|
+      coord_array = self.pick_coordinates(size)
+      loop do
+        if add_ship(coord_array[0], coord_array[1], size)
+          break
+        else
+          coord_array = self.try_again(size)
+        end
+      end
+    end
+  end
+
+  def try_again(size)
+    pick_coordinates(size)
   end
 
   def add_ship(coord_1, coord_2, size)
@@ -41,7 +60,6 @@ class Player
   end
 
   def print_board(display_ships)
-    require 'pry'; binding.pry
     print "#{self.class.to_s.gsub("Player",' Board')}"
     @board.print_board(display_ships)
   end
