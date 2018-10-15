@@ -2,6 +2,7 @@ require './lib/human_player'
 require './lib/ai_player'
 require './lib/board'
 require './lib/repl'
+require './lib/timer'
 
 class BattleshipGame
   attr_reader :player_1, :player_2
@@ -35,7 +36,8 @@ class BattleshipGame
   end
 
   def game_init
-    @start_time = Time.now
+    @timer = Timer.new
+    @timer.start
 
     @player_2.place_ships
     @player_1.place_ships
@@ -66,7 +68,7 @@ class BattleshipGame
   end
 
   def end_of_game(losing_players)
-    game_length = Time.now - @start_time
+    game_length = @timer.stop.total(2)
     if losing_players.size == 2
       puts 'Like in real war, you both lose.'
     else
@@ -81,7 +83,7 @@ class BattleshipGame
   def turn(player, target)
     coord = ''
     target.print_board
-    
+
     loop do
       coord = player.get_attack_coord
       break if target.board.is_coord_valid?(coord) && !target.hit?(coord)
