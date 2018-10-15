@@ -80,12 +80,8 @@ class BattleshipGame
 
   def turn(player, target)
     coord = ''
-
-    if player.is_a?(HumanPlayer)
-      puts 'Your hits and misses.'
-      target.print_board(false)
-      # target.print_board(true) # Make testing easier by cheating!!!!
-    end
+    target.print_board
+    
     loop do
       coord = player.get_attack_coord
       break if target.board.is_coord_valid?(coord) && !target.hit?(coord)
@@ -94,12 +90,7 @@ class BattleshipGame
     success = target.fire(coord)
     player.print_hit(success, coord)
 
-    if player.is_a?(HumanPlayer)
-      target.print_board(false)
-      enter_to_continue
-    else
-      target.print_board(true)
-    end
+    target.print_board
   end
 
   def check_for_losses

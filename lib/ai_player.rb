@@ -4,6 +4,11 @@ require './lib/player'
 
 class AIPlayer < Player
   
+  def print_board
+    puts "Your hits and misses"
+    super(false)
+  end
+  
   def pick_coordinates(size) # returns an array of 2 coordinates
     coordinates = []
     2.times do
@@ -11,7 +16,6 @@ class AIPlayer < Player
     end
     coordinates
   end
-
 
   def get_attack_coord
       @board.board_hash.keys.sample
@@ -32,7 +36,4 @@ class AIPlayer < Player
 
     puts 'The current state of your board.'
   end
-  
-  
-
 end
