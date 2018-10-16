@@ -80,6 +80,5 @@ class Player
   def last_guess
     @guesses.last.first
   end
-  
-  
+    
 end

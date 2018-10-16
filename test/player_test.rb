@@ -38,6 +38,8 @@ class PlayerTest < Minitest::Test
   end
 
   def test_ai_can_pick_valid_attack_coordinates
+    @ai.add_guess("A1", false)
+    @ai.add_guess("B2", false)
     assert (/([A-Z][1-9])/.match?(@ai.get_attack_coord))
   end
 
@@ -54,9 +56,33 @@ class PlayerTest < Minitest::Test
     assert_equal "B2", @ai.get_attack_coord
   end
   
-  # def test_ai_can_pick_an_adjacent_coordinate
-  #   @ai.
-  # end
+  def test_ai_can_pick_an_adjacent_coordinate
+    @human.fire("A2")
+    @human.fire("A1")
+    @ai.add_guess("A1", true)
+    
+    coord = ''
+    loop do
+      coord = @ai.get_attack_coord
+      break if @human.board.is_coord_valid?(coord) && !@human.hit?(coord)
+    end
+    
+    assert_equal "B1", coord
+  end
+  
+  def test_ai_can_pick_a_different_adjacent_coordinate
+    @human.fire("B1")
+    @human.fire("A1")
+    @ai.add_guess("A1", true)
+  
+    coord = ''
+    loop do
+      coord = @ai.get_attack_coord
+      break if @human.board.is_coord_valid?(coord) && !@human.hit?(coord)
+    end
+  
+    assert_equal "A2", coord
+  end
   
   def test_can_store_guesses
     assert_equal 0, @ai.guesses.size
@@ -69,7 +95,5 @@ class PlayerTest < Minitest::Test
     assert_equal false, @ai.last_guess_hit?
     assert_equal "A1", @ai.last_guess
   end
-  
-  
 
 end

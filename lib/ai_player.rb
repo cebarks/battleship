@@ -18,10 +18,10 @@ class AIPlayer < Player
   end
 
   def get_attack_coord
-    if @shots_taken == 0
+    if @guesses.size == 0
       return "B2"
     elsif last_guess_hit?
-      return get_adjacent_coord(last_guess)
+      return @board.get_adjacent_coord(last_guess)
     else
       return @board.board_hash.keys.sample
     end
@@ -43,24 +43,4 @@ class AIPlayer < Player
     puts 'The current state of your board.'
   end
   
-  def get_adjacent_coord(coord)
-    letter = coord[0]
-    number = coord[1].to_i
-    
-    loop do
-      if rand(2) == 0
-        #iterate on the letter
-        new_letter = (rand(2) == 0 ? letter.next : (letter.ord - 1).chr)
-        if @board.is_coord_valid?(new_letter + number.to_s)
-          return new_letter + number.to_s
-        end
-      else
-        #iterate on the number
-        new_number = (rand(2) == 0 ? number + 1 : number - 1)
-        if @board.is_coord_valid?(letter + new_number.to_s)
-          return letter + new_number.to_s
-        end
-      end
-    end
-  end
 end
