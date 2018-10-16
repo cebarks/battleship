@@ -89,4 +89,6 @@ module Coords
     end
     alpha_hash
   end
+  
+
 end

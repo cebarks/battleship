@@ -1,11 +1,12 @@
 
 class Player
-  attr_reader :board, :ships, :shots_taken
+  attr_reader :board, :ships, :shots_taken, :guesses
   
   def initialize
     @board = Board.new
     @ships = []
     @shots_taken = 0
+    @guesses = []
   end
 
   def place_ships
@@ -67,4 +68,18 @@ class Player
   def type
     self.class.to_s.gsub("Player",'')
   end
+  
+  def add_guess(coord, success)
+    @guesses << [coord, success]
+  end
+  
+  def last_guess_hit?
+    @guesses.last.last
+  end
+  
+  def last_guess
+    @guesses.last.first
+  end
+  
+  
 end
