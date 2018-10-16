@@ -8,12 +8,22 @@ class BattleshipGame
   attr_reader :player_1, :player_2
 
   SHIP_SIZES = [2, 3].freeze
-
+  
   def initialize
     @player_1 = HumanPlayer.new
     @player_2 = AIPlayer.new
     @players = [@player_1, @player_2]
     @running = false
+    @options = {
+      :debug => false,
+      :board => {
+        :size => 4
+      },
+      :ships => {
+        :number => 2
+      }, 
+      :quit => false
+    }
   end
 
   def start
@@ -27,11 +37,64 @@ class BattleshipGame
         game_init
       when :instructions
         print_instructions
+      when :options
+        options
       when :quit
         exit_game
       when :invalid
         puts "Invalid Input. Try Again "
       end
+    end
+  end
+  
+  def options
+    print_options
+    boolean_break = true
+    while boolean_break do
+      puts "Enter the option you want to change: #{@options.keys.join(", ")}"
+      until @options.keys.include?(choice = get_input.downcase.to_sym)
+        puts "Enter the option you want to change: #{@options.keys.join(", ")}"
+      end
+      
+      case choice
+      when :board
+        puts "BOARD"
+        puts "Enter the option you want to change: #{@options[:board].keys.join(", ")}"
+        until @options[:board].keys.include?(board_choice = get_input.downcase.to_sym)
+          puts "Enter the option you want to change: #{@options[:board].keys.join(", ")}"
+        end
+      when :ships
+        puts "SHIPS"
+        puts "Enter the option you want to change: #{@options[:ships].keys.join(", ")}"
+        until @options[:ships].keys.include?(ships_choice = get_input.downcase.to_sym)
+          puts "Enter the option you want to change: #{@options[:ships].keys.join(", ")}"
+        end
+      when :debug
+        @options[:debug] = !@options[:debug]
+        puts "Toggled Debug Mode to #{@options[:debug]}"
+      when :quit
+        boolean_break = false
+      end
+    end
+  end
+
+  def print_options
+    puts "Current settings:"
+    @options.keys.each do |key|
+      print_option(key) unless key == :quit
+    end
+  end
+
+  def print_option(key)
+    option = @options[key]
+    
+    if option.is_a?(Hash)
+      puts "-" + "#{key}:"
+      option.each do |k, v|
+        puts "  --" + "#{k}: #{v}"
+      end
+    else
+      puts "-" + "#{key}: #{option}"
     end
   end
 
