@@ -49,7 +49,27 @@ class PlayerTest < Minitest::Test
     assert @ai.hit?("A1")
     assert @human.hit?("B1")
   end
-
-
+  
+  def test_ai_always_starts_on_b2
+    assert_equal "B2", @ai.get_attack_coord
+  end
+  
+  # def test_ai_can_pick_an_adjacent_coordinate
+  #   @ai.
+  # end
+  
+  def test_can_store_guesses
+    assert_equal 0, @ai.guesses.size
+    @ai.add_guess("A1", false)
+    assert_equal [["A1", false]], @ai.guesses
+  end
+  
+  def test_it_can_return_information_from_guesses
+    @ai.add_guess("A1", false)
+    assert_equal false, @ai.last_guess_hit?
+    assert_equal "A1", @ai.last_guess
+  end
+  
+  
 
 end

@@ -21,7 +21,7 @@ class AIPlayer < Player
     if @shots_taken == 0
       return "B2"
     elsif last_guess_hit?
-      return adjacent_coord(last_guess)
+      return get_adjacent_coord(last_guess)
     else
       return @board.board_hash.keys.sample
     end
@@ -43,28 +43,20 @@ class AIPlayer < Player
     puts 'The current state of your board.'
   end
   
-  def adjacent_coord(coord)
+  def get_adjacent_coord(coord)
     letter = coord[0]
     number = coord[1].to_i
     
     loop do
       if rand(2) == 0
         #iterate on the letter
-        if rand(2) == 0
-          new_letter = letter.next
-        else
-          new_letter = (letter.ord - 1).chr
-        end
+        new_letter = (rand(2) == 0 ? letter.next : (letter.ord - 1).chr)
         if @board.is_coord_valid?(new_letter + number.to_s)
           return new_letter + number.to_s
         end
       else
         #iterate on the number
-        if rand(2) == 0
-          new_number = number + 1
-        else
-          new_number = number - 1
-        end
+        new_number = (rand(2) == 0 ? number + 1 : number - 1)
         if @board.is_coord_valid?(letter + new_number.to_s)
           return letter + new_number.to_s
         end
