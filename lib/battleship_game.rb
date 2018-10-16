@@ -5,9 +5,9 @@ require './lib/repl'
 require './lib/timer'
 
 class BattleshipGame
-  attr_reader :player_1, :player_2
+  attr_reader :player_1, :player_2, :options
 
-  SHIP_SIZES = [2, 3].freeze
+    @@SHIP_SIZES = (2..3).to_a
   
   def initialize
     @player_1 = HumanPlayer.new
@@ -24,6 +24,10 @@ class BattleshipGame
       }, 
       :quit => false
     }
+  end
+  
+  def self.ship_sizes
+    @@SHIP_SIZES
   end
 
   def start
@@ -76,6 +80,7 @@ class BattleshipGame
         boolean_break = false
       end
     end
+    @@SHIP_SIZES = (2...(@options[:ships][:number] + 2)).to_a
   end
 
   def print_options
