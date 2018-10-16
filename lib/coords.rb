@@ -54,7 +54,7 @@ module Coords
     let = coord[0]
     num = coord[1].to_i
 
-    return false if num > size || num < 0
+    return false if num > size || num <= 0
     return false unless @allowed_letters.include?(let)
 
     true
@@ -79,6 +79,27 @@ module Coords
 
     true
   end
+  
+  def get_adjacent_coord(coord)
+    letter = coord[0]
+    number = coord[1].to_i
+    
+    loop do
+      if rand(2) == 0
+        #iterate on the letter
+        new_letter = (rand(2) == 0 ? letter.next : (letter.ord - 1).chr)
+        if is_coord_valid?(new_letter + number.to_s)
+          return new_letter + number.to_s
+        end
+      else
+        #iterate on the number
+        new_number = (rand(2) == 0 ? number + 1 : number - 1)
+        if is_coord_valid?(letter + new_number.to_s)
+          return letter + new_number.to_s
+        end
+      end
+    end
+  end
 
   def alpha_hash
     alpha_hash = {}
@@ -89,4 +110,6 @@ module Coords
     end
     alpha_hash
   end
+  
+
 end

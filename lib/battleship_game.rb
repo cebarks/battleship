@@ -90,6 +90,7 @@ class BattleshipGame
     end
 
     success = target.fire(coord)
+    player.add_guess(coord, success)
     player.print_hit(success, coord)
 
     target.print_board

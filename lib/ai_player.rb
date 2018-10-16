@@ -18,7 +18,13 @@ class AIPlayer < Player
   end
 
   def get_attack_coord
-      @board.board_hash.keys.sample
+    if @guesses.size == 0
+      return "B2"
+    elsif last_guess_hit?
+      return @board.get_adjacent_coord(last_guess)
+    else
+      return @board.board_hash.keys.sample
+    end
   end
   
   def lose
@@ -36,4 +42,5 @@ class AIPlayer < Player
 
     puts 'The current state of your board.'
   end
+  
 end
