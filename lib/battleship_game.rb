@@ -17,16 +17,6 @@ class BattleshipGame
       :ships => {
         :number => 2
       },
-      :test => {
-        :one => {
-          1 => "one"
-        },
-        :two => {
-          2 => {
-              another: "another"
-          }
-        }
-      },
       :quit => false
     }
 
@@ -142,7 +132,7 @@ class BattleshipGame
     if @options[:debug]
       puts "#{"-"*level}#{key}: #{value}"
     else
-      puts "#{" "*level}-#{key}: #{value}" unless key == :quit || key == :test
+      puts "#{" "*level}-#{key}: #{value}" unless key == :quit
     end
   end
 
