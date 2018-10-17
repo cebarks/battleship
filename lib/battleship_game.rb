@@ -3,6 +3,7 @@ require './lib/ai_player'
 require './lib/board'
 require './lib/repl'
 require './lib/timer'
+require 'optparse'
 
 class BattleshipGame
   attr_reader :player_1, :player_2, :options
@@ -27,11 +28,17 @@ class BattleshipGame
       @@OPTIONS
     end
   
-  def initialize(args = [false])
+  def initialize
+    OptionParser.new do |opts|
+      opts.banner = "Usage: battleship.rb [options]"
+      
+      opts.on("-d", "--debug", "Enable debug mode") do |d|
+        @@OPTIONS[:debug] = true
+      end
+    end.parse!
+    
     @running = false
     @options = @@OPTIONS
-    debug_flag = args[0]
-    @@OPTIONS[:debug] = debug_flag
   end
   
   def start
