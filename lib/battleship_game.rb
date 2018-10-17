@@ -16,10 +16,20 @@ class BattleshipGame
       },
       :ships => {
         :number => 2
-      }, 
+      },
+      :test => {
+        :one => {
+          1 => "one"
+        },
+        :two => {
+          2 => {
+              another: "another"
+          }
+        }
+      },
       :quit => false
     }
-    
+
     def self.ship_sizes
       @@SHIP_SIZES
     end
@@ -27,20 +37,20 @@ class BattleshipGame
     def self.options
       @@OPTIONS
     end
-  
+
   def initialize
     OptionParser.new do |opts|
       opts.banner = "Usage: battleship.rb [options]"
-      
+
       opts.on("-d", "--debug", "Enable debug mode") do |d|
         @@OPTIONS[:debug] = true
       end
     end.parse!
-    
+
     @running = false
     @options = @@OPTIONS
   end
-  
+
   def start
     @running = true
     @repl = Repl.new
@@ -61,21 +71,21 @@ class BattleshipGame
       end
     end
   end
-  
+
   def options
     print_options
     boolean_break = true
     while boolean_break do
       puts "Enter the option you want to change: #{@options.keys.join(", ")}"
-      
+
       until @options.keys.include?(choice = get_input.downcase.to_sym)
         puts "Enter the option you want to change: #{@options.keys.join(", ")}"
       end
-      
+
       case choice
       when :board
         puts "Enter the option you want to change: #{@options[:board].keys.join(", ")}"
-        
+
         until @options[:board].keys.include?(board_choice = get_input.downcase.to_sym)
           puts "Enter the option you want to change: #{@options[:board].keys.join(", ")}"
         end
@@ -88,7 +98,7 @@ class BattleshipGame
         end
       when :ships
         puts "Enter the option you want to change: #{@options[:ships].keys.join(", ")}"
-        
+
         until @options[:ships].keys.include?(ships_choice = get_input.downcase.to_sym)
           puts "Enter the option you want to change: #{@options[:ships].keys.join(", ")}"
         end
@@ -99,7 +109,7 @@ class BattleshipGame
           new_number = get_input.to_i
           @options[:ships][:number] = new_number
         end
-        
+
       when :debug
         @options[:debug] = !@options[:debug]
         puts "Toggled Debug Mode to #{@options[:debug]}"
@@ -114,36 +124,40 @@ class BattleshipGame
 
   def print_options
     puts "Current settings:"
-    @options.keys.each do |key|
-      print_option(key) unless key == :quit
+    print_options_r(@options, 1)
+  end
+
+  def print_options_r(options, level)
+    options.each do |k, v|
+      if !v.is_a?(Hash)
+        print_option(k, v, level)
+      else
+        print_option(k, "", level)
+        print_options_r(v, level + 1)
+      end
     end
   end
 
-  def print_option(key)
-    option = @options[key]
-    
-    if option.is_a?(Hash)
-      puts "-" + "#{key}:"
-      option.each do |k, v|
-        puts "  --" + "#{k}: #{v}"
-      end
+  def print_option(key, value, level)
+    if @options[:debug]
+      puts "#{"-"*level}#{key}: #{value}"
     else
-      puts "-" + "#{key}: #{option}"
+      puts "#{" "*level}-#{key}: #{value}" unless key == :quit || key == :test
     end
   end
-  
+
   def create_players
     @player_1 = HumanPlayer.new
     @player_2 = AIPlayer.new
     @players = [@player_1, @player_2]
   end
-  
+
   def game_init
     @timer = Timer.new
     @timer.start
-    
+
     create_players
-    
+
     @player_2.place_ships
     @player_1.place_ships
 

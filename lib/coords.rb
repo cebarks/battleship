@@ -63,27 +63,27 @@ module Coords
   def is_placement_valid?(coord_1, coord_2, ship_size)
     return false if !is_coord_valid?(coord_1) || !is_coord_valid?(coord_2) # If either coord isn't valid, return fail
 
-    distance = coord_distance(coord_1, coord_2)
+    distance = coord_distance(coord_1, coord_2) # find the distance between the two coordinates
 
-    return false if distance == 0
+    return false if distance == 0 # if its the same coordinate
 
-    return false if distance != ship_size
+    return false if distance != ship_size # if distance isn't equal to the ship size, its impossible configuration. Also deals with wrapping.
 
     all_cells_empty = true
 
-    coords_between(coord_1, coord_2).each do |coord|
-      all_cells_empty = false unless is_cell_empty?(coord)
+    coords_between(coord_1, coord_2).each do |coord| # if coords_between is [] then its diagonal
+      all_cells_empty = false unless is_cell_empty?(coord) # makes sure none of the coords have anything in them yet
     end
 
-    return false unless all_cells_empty
+    return false unless all_cells_empty # return false if theres something in a cell already
 
     true
   end
-  
+
   def get_adjacent_coord(coord)
     letter = coord[0]
     number = coord[1].to_i
-    
+
     loop do
       if rand(2) == 0
         #iterate on the letter
@@ -110,6 +110,6 @@ module Coords
     end
     alpha_hash
   end
-  
+
 
 end
