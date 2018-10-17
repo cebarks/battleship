@@ -15,16 +15,16 @@ class BoardTest < Minitest::Test
     assert_equal 4, @board.size
   end
 
-  def test_invalid_size
-    assert_output("WRONG SIZE LESS THAN 4!!!!!!!\n",'') do
-      Board.new(3)
-    end
-  end
-
-  def test_custom_size
-    custom_board = Board.new(8)
-    assert_equal 8, custom_board.size
-  end
+  # def test_invalid_size
+  #   assert_output("WRONG SIZE LESS THAN 4!!!!!!!\n",'') do
+  #     Board.new(3)
+  #   end
+  # end
+  # 
+  # def test_custom_size
+  #   custom_board = Board.new(8)
+  #   assert_equal 8, custom_board.size
+  # end
 
   def test_it_populates_keys
     expected = %w[A1 B1 C1 D1 A2 B2 C2 D2 A3 B3 C3 D3 A4 B4 C4 D4]

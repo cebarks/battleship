@@ -122,15 +122,19 @@ class BattleshipGame
       puts "-" + "#{key}: #{option}"
     end
   end
-
+  
+  def create_players
+    @player_1 = HumanPlayer.new
+    @player_2 = AIPlayer.new
+    @players = [@player_1, @player_2]
+  end
+  
   def game_init
     @timer = Timer.new
     @timer.start
     
-    @player_1 = HumanPlayer.new
-    @player_2 = AIPlayer.new
-    @players = [@player_1, @player_2]
-
+    create_players
+    
     @player_2.place_ships
     @player_1.place_ships
 
