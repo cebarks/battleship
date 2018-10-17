@@ -173,6 +173,7 @@ class BattleshipGame
         end_of_game(losing_players)
         break
       end
+      enter_to_continue
     end
   end
 
