@@ -63,7 +63,7 @@ class BattleshipGame
       when :instructions
         print_instructions
       when :options
-        options
+        run_options
       when :quit
         exit_game
       when :invalid
@@ -72,7 +72,7 @@ class BattleshipGame
     end
   end
 
-  def options
+  def run_options
     print_options
     boolean_break = true
     while boolean_break do
