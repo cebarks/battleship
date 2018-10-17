@@ -27,9 +27,11 @@ class BattleshipGame
       @@OPTIONS
     end
   
-  def initialize
+  def initialize(args)
     @running = false
     @options = @@OPTIONS
+    debug_flag = args[0]
+    @@OPTIONS[:debug] = debug_flag
   end
   
   def start

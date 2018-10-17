@@ -1,5 +1,7 @@
 
 require './lib/battleship_game'
 
-battleship = BattleshipGame.new()
+args = ARGV
+
+battleship = BattleshipGame.new(args)
 battleship.start()
