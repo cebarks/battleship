@@ -83,8 +83,9 @@ module Coords
   def get_adjacent_coord(coord)
     letter = coord[0]
     number = coord[1].to_i
-
-    loop do
+    
+    
+    10.times do
       if rand(2) == 0
         #iterate on the letter
         new_letter = (rand(2) == 0 ? letter.next : (letter.ord - 1).chr)
@@ -99,6 +100,7 @@ module Coords
         end
       end
     end
+    @board_hash.keys.sample
   end
 
   def alpha_hash
