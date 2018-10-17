@@ -6,7 +6,7 @@ class AIPlayer < Player
   
   def print_board
     puts "Your hits and misses"
-    super(false)
+    super(BattleshipGame.options[:debug])
   end
   
   def pick_coordinates(size) # returns an array of 2 coordinates

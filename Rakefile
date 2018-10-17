@@ -14,5 +14,5 @@ end
 
 desc 'Run the game! (in secret debug mode. shhhhh)'
 task :debug do
-  ruby 'battleship.rb -debug'
+  ruby 'battleship.rb --debug'
 end

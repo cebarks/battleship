@@ -3,10 +3,11 @@ class Repl
   def initialize
     @prompt = '>'
     @message = %{Welcome to BATTLESHIP!
-    Would you like to (p)lay, read the (i)nstructions, or (q)uit?}
+    Would you like to (p)lay, read the (i)nstructions, change the (o)ptions, or (q)uit?}
     @trigger_hash = {
       %w[p play] => :play,
       %w[i instructions] => :instructions,
+      %w[o options] => :options,
       %w[q quit] => :quit
     }
     @trigger_hash.default = :invalid

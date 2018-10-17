@@ -5,6 +5,7 @@ require './lib/battleship_game'
 class BattleshipGameTest < Minitest::Test
   def setup
     @battleship = BattleshipGame.new
+    @battleship.create_players
   end
 
   def test_it_creates

@@ -10,7 +10,7 @@ class Player
   end
 
   def place_ships
-    sizes = BattleshipGame::SHIP_SIZES
+    sizes = BattleshipGame.ship_sizes
     sizes.each do |size|
       coord_array = self.pick_coordinates(size)
       loop do

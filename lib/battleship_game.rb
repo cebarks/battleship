@@ -3,19 +3,44 @@ require './lib/ai_player'
 require './lib/board'
 require './lib/repl'
 require './lib/timer'
+require 'optparse'
 
 class BattleshipGame
-  attr_reader :player_1, :player_2
+  attr_reader :player_1, :player_2, :options
 
-  SHIP_SIZES = [2, 3].freeze
+    @@SHIP_SIZES = (2..3).to_a
+    @@OPTIONS = {
+      :debug => false,
+      :board => {
+        :size => 4
+      },
+      :ships => {
+        :number => 2
+      }, 
+      :quit => false
+    }
+    
+    def self.ship_sizes
+      @@SHIP_SIZES
+    end
 
+    def self.options
+      @@OPTIONS
+    end
+  
   def initialize
-    @player_1 = HumanPlayer.new
-    @player_2 = AIPlayer.new
-    @players = [@player_1, @player_2]
+    OptionParser.new do |opts|
+      opts.banner = "Usage: battleship.rb [options]"
+      
+      opts.on("-d", "--debug", "Enable debug mode") do |d|
+        @@OPTIONS[:debug] = true
+      end
+    end.parse!
+    
     @running = false
+    @options = @@OPTIONS
   end
-
+  
   def start
     @running = true
     @repl = Repl.new
@@ -27,6 +52,8 @@ class BattleshipGame
         game_init
       when :instructions
         print_instructions
+      when :options
+        options
       when :quit
         exit_game
       when :invalid
@@ -34,11 +61,89 @@ class BattleshipGame
       end
     end
   end
+  
+  def options
+    print_options
+    boolean_break = true
+    while boolean_break do
+      puts "Enter the option you want to change: #{@options.keys.join(", ")}"
+      
+      until @options.keys.include?(choice = get_input.downcase.to_sym)
+        puts "Enter the option you want to change: #{@options.keys.join(", ")}"
+      end
+      
+      case choice
+      when :board
+        puts "Enter the option you want to change: #{@options[:board].keys.join(", ")}"
+        
+        until @options[:board].keys.include?(board_choice = get_input.downcase.to_sym)
+          puts "Enter the option you want to change: #{@options[:board].keys.join(", ")}"
+        end
 
+        case board_choice
+        when :size
+          puts "How long would you like the rows/columns to be?"
+          new_size = get_input.to_i
+          @options[:board][:size] = new_size
+        end
+      when :ships
+        puts "Enter the option you want to change: #{@options[:ships].keys.join(", ")}"
+        
+        until @options[:ships].keys.include?(ships_choice = get_input.downcase.to_sym)
+          puts "Enter the option you want to change: #{@options[:ships].keys.join(", ")}"
+        end
+
+        case ships_choice
+        when :number
+          puts "How many ships do you want?"
+          new_number = get_input.to_i
+          @options[:ships][:number] = new_number
+        end
+        
+      when :debug
+        @options[:debug] = !@options[:debug]
+        puts "Toggled Debug Mode to #{@options[:debug]}"
+      when :quit
+        boolean_break = false
+      end
+    end
+    @@SHIP_SIZES = (2...(@options[:ships][:number] + 2)).to_a
+    @@BOARD_SIZE = @options[:board][:size]
+    @@OPTIONS = @options
+  end
+
+  def print_options
+    puts "Current settings:"
+    @options.keys.each do |key|
+      print_option(key) unless key == :quit
+    end
+  end
+
+  def print_option(key)
+    option = @options[key]
+    
+    if option.is_a?(Hash)
+      puts "-" + "#{key}:"
+      option.each do |k, v|
+        puts "  --" + "#{k}: #{v}"
+      end
+    else
+      puts "-" + "#{key}: #{option}"
+    end
+  end
+  
+  def create_players
+    @player_1 = HumanPlayer.new
+    @player_2 = AIPlayer.new
+    @players = [@player_1, @player_2]
+  end
+  
   def game_init
     @timer = Timer.new
     @timer.start
-
+    
+    create_players
+    
     @player_2.place_ships
     @player_1.place_ships
 

@@ -5,12 +5,8 @@ class Board
   include Coords
   attr_reader :size, :board_hash
 
-  def initialize(size = 4)
-    if size < 4 # Better way to do this
-      puts 'WRONG SIZE LESS THAN 4!!!!!!!'
-      size = 4
-    end
-    @size = size
+  def initialize
+    @size = BattleshipGame.options[:board][:size]
     @board_hash = Hash.new(nil)
     @allowed_letters = (alpha_hash[1]..alpha_hash[@size]).to_a
 
